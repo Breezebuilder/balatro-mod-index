@@ -53,16 +53,14 @@ jobs:
           cat changed_mods.txt
           echo "changed_mods_found=true" >> $GITHUB_OUTPUT
           
-          # Create a comma-separated list for JSON schema validation
+          # Create a newline-separated list for JSON schema validation
           META_JSON_FILES=""
           while read -r mod_path; do
             if [ -f "$mod_path/meta.json" ]; then
               if [ -z "$META_JSON_FILES" ]; then
                 META_JSON_FILES="$mod_path/meta.json"
               else
-                META_JSON_FILES=|
-                "$META_JSON_FILES
-                $mod_path/meta.json"
+                META_JSON_FILES="$META_JSON_FILES"$'\n'"$mod_path/meta.json"
               fi
             fi
           done < changed_mods.txt
