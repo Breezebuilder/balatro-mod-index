@@ -60,7 +60,7 @@ jobs:
               if [ -z "$META_JSON_FILES" ]; then
                 META_JSON_FILES="$mod_path/meta.json"
               else
-                META_JSON_FILES="$META_JSON_FILES"$'\n'"$mod_path/meta.json"
+                META_JSON_FILES="$META_JSON_FILES\n$mod_path/meta.json"
               fi
             fi
           done < changed_mods.txt
@@ -129,7 +129,8 @@ jobs:
         uses: dsanders11/json-schema-validate-action@v1.2.0
         with:
           schema: "./schema/meta.schema.json"
-          files: ${{ steps.find-changed-mods.outputs.meta_json_files }}
+          files: |
+            ${{ steps.find-changed-mods.outputs.meta_json_files }}
 
       - name: Validate Download URLs
         if: always() && steps.find-changed-mods.outputs.changed_mods_found == 'true'
