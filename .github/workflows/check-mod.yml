@@ -58,7 +58,9 @@ jobs:
             [ -f "$mod_path/meta.json" ] && echo "$mod_path/meta.json"
           done < changed_mods.txt)
                   
-          # echo "meta_json_files=$META_JSON_FILES" >> $GITHUB_OUTPUT
+          echo "meta_json_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$META_JSON_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Check Required Files
         if: steps.find-changed-mods.outputs.changed_mods_found == 'true'
