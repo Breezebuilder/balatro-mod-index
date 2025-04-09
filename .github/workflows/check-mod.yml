@@ -59,9 +59,10 @@ jobs:
             if [ -f "$mod_path/meta.json" ]; then
               if [ -z "$META_JSON_FILES" ]; then
                 META_JSON_FILES="$mod_path/meta.json"
-              else
                 META_JSON_FILES+=$'\n'
+              else
                 META_JSON_FILES+="$mod_path/meta.json"
+                META_JSON_FILES+=$'\n'
               fi
             fi
           done < changed_mods.txt
