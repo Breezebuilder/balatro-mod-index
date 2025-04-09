@@ -54,15 +54,11 @@ jobs:
           echo "changed_mods_found=true" >> $GITHUB_OUTPUT
           
           # Create a newline-separated list for JSON schema validation
-          META_JSON_FILES=$(cat changed_mods.txt | while read -r mod_path; do
-            if [ -f "$mod_path/meta.json" ]; then
-              echo "$mod_path/meta.json"
-            fi
-          done | tr '\n' ' ')
-          
-          echo 'var<<EOF' >> $GITHUB_OUTPUT
-          echo "$META_JSON_FILES" >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          META_JSON_FILES=$(while read -r mod_path; do
+            [ -f "$mod_path/meta.json" ] && echo "$mod_path/meta.json"
+          done < changed_mods.txt | paste -sd ' ')
+                  
+          echo "meta_json_files=$META_JSON_FILES" >> $GITHUB_OUTPUT
 
       - name: Check Required Files
         if: steps.find-changed-mods.outputs.changed_mods_found == 'true'
